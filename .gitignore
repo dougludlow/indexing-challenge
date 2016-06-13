@@ -236,6 +236,3 @@ _Pvt_Extensions
 # IntelliJ
 .idea
 
-# IndexingChallenge
-src/IndexingChallenge/wwwroot/lib/
-

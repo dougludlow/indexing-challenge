@@ -1,45 +1,100 @@
-/// <binding Clean='clean' />
-"use strict";
+'use strict';
 
-var gulp = require("gulp"),
-    rimraf = require("rimraf"),
-    concat = require("gulp-concat"),
-    cssmin = require("gulp-cssmin"),
-    uglify = require("gulp-uglify");
+var gulp = require('gulp'),
+    rimraf = require('rimraf'),
+    sass = require('gulp-sass'),
+    postcss = require('gulp-postcss'),
+    autoprefixer = require('autoprefixer'),
+    cleanCss = require('postcss-clean'),
+    Builder = require('jspm').Builder,
+    browserSync = require('browser-sync').create(),
+    Dotnet = require('gulp-dotnet');
 
-var webroot = "./wwwroot/";
+var server,
+    webroot = './wwwroot/',
+    paths = {
+        ts: webroot + 'app/**/*.ts',
+        js: webroot + '**/*.js',
+        scss: webroot + 'styles/*.scss',
+        scripts: webroot + 'bundle.js',
+        styles: webroot + 'styles/',
+    };
 
-var paths = {
-    js: webroot + "js/**/*.js",
-    minJs: webroot + "js/**/*.min.js",
-    css: webroot + "css/**/*.css",
-    minCss: webroot + "css/**/*.min.css",
-    concatJsDest: webroot + "js/site.min.js",
-    concatCssDest: webroot + "css/site.min.css"
-};
+gulp.task('default', ['sass', 'jspm']);
+gulp.task('release', ['sass:release', 'jspm:release']);
+gulp.task('jspm', ['jspm:debug']);
+gulp.task('sass', ['sass:debug']);
 
-gulp.task("clean:js", function (cb) {
-    rimraf(paths.concatJsDest, cb);
+gulp.task('serve', ['dotnet', 'sass', 'jspm'], function() {
+
+    browserSync.init({
+        proxy: 'localhost:5000',
+    });
+
+    gulp.watch(paths.ts, ['jspm']);
+    gulp.watch([paths.js, '!' + paths.scripts], ['jspm']);
+    gulp.watch(paths.scss, ['sass']);
+    gulp.watch('./**/*.cs', ['dotnet']);
+    gulp.watch('./**/*.cshtml').on('change', browserSync.reload);
+    gulp.watch(webroot + '**/*.html').on('change', browserSync.reload);;
 });
 
-gulp.task("clean:css", function (cb) {
-    rimraf(paths.concatCssDest, cb);
+gulp.task('dotnet', function(done) {
+    if (!server)
+        server = new Dotnet({ logLevel: 'debug' });
+    server.start('run', done);
 });
 
-gulp.task("clean", ["clean:js", "clean:css"]);
-
-gulp.task("min:js", function () {
-    return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
-        .pipe(concat(paths.concatJsDest))
-        .pipe(uglify())
-        .pipe(gulp.dest("."));
+gulp.task('sass:debug', function () {
+    return gulp.src(paths.scss)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(postcss([
+            autoprefixer({
+                browsers: ['last 2 versions']
+            })
+        ]))
+        .pipe(gulp.dest(paths.styles))
+        .pipe(browserSync.stream());
 });
 
-gulp.task("min:css", function () {
-    return gulp.src([paths.css, "!" + paths.minCss])
-        .pipe(concat(paths.concatCssDest))
-        .pipe(cssmin())
-        .pipe(gulp.dest("."));
+gulp.task('sass:release', function () {
+    return gulp.src(paths.scss)
+        .pipe(sass().on('error', sass.logError))
+        .pipe(postcss([
+            autoprefixer({
+                browsers: ['last 2 versions']
+            }),
+            cleanCss()
+        ]))
+        .pipe(gulp.dest(paths.styles));
 });
 
-gulp.task("min", ["min:js", "min:css"]);
+gulp.task('jspm:debug', ['sass:debug'], function (done) {
+    var builder = new Builder(),
+        options = {
+            minify: false,
+            sourceMaps: true
+        };
+
+    builder
+        .bundle('indexing-challenge/**/* - [indexing-challenge/**/*] - [indexing-challenge/**/*.css!]', paths.scripts, options)
+        .then(function () {
+            browserSync.reload();
+            done();
+        });
+});
+
+gulp.task('jspm:release', ['sass:release'], function (done) {
+    var builder = new Builder(),
+        options = {
+            minify: true,
+            sourceMaps: false
+        };
+
+    builder
+        .buildStatic('indexing-challenge', paths.scripts, options)
+        .then(function () {
+            browserSync.reload();
+            done();
+        });
+});

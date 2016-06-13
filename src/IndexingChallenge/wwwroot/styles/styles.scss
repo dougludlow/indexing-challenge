@@ -1,0 +1,41 @@
+@import "../jspm_packages/npm/bootswatch@3.3.6/superhero/variables";
+@import "../jspm_packages/github/twbs/bootstrap-sass@3.3.6/assets/stylesheets/bootstrap";
+@import "../jspm_packages/npm/bootswatch@3.3.6/superhero/bootswatch";
+
+body {
+  padding-top: 70px;
+  padding-bottom: 20px;
+}
+
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+input, select, textarea {
+  max-width: 280px;
+}
+
+.carousel-caption p {
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.btn-bracketed::before {
+  display: inline-block;
+  content: "[";
+  padding-right: 0.5em;
+}
+
+.btn-bracketed::after {
+  display: inline-block;
+  content: "]";
+  padding-left: 0.5em;
+}
+
+@media screen and (max-width: 767px) {
+  /* Hide captions */
+  .carousel-caption {
+    display: none;
+  }
+}
