@@ -4,8 +4,15 @@ namespace IndexingChallenge.Models
 {
     public class Setting
     {
-        [Key]
-        public string Key { get; set; }
-        public string Value { get; set; }
+        public int Id { get; set; }
+        public int Goal { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string Unit { get; set; }
+
+        [Required]
+        [StringLength(55)]
+        public string UnitPlural { get; set; }
     }
 }

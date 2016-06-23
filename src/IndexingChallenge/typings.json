@@ -1,0 +1,10 @@
+{
+  "name": "indexing-challenge",
+  "resolution": {
+    "main": "wwwroot/typings"
+  },
+  "dependencies": {},
+  "globalDependencies": {
+    "lodash": "registry:dt/lodash#3.10.0+20160619033623"
+  }
+}

@@ -40,6 +40,7 @@ gulp.task('serve', ['dotnet', 'sass', 'jspm'], function() {
 });
 
 gulp.task('dotnet', function(done) {
+    process.env.ASPNETCORE_ENVIRONMENT = 'development';
     if (!server)
         server = new Dotnet({ logLevel: 'debug' });
     server.start('run', done);

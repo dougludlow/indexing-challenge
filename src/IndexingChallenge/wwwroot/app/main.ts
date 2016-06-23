@@ -1,4 +1,4 @@
-import 'reflect-metadata';
+import './polyfills';
 import 'jquery';
 import 'bootstrap-sass';
 
@@ -11,4 +11,4 @@ import { AppComponent } from './app.component';
 
 bootstrap(AppComponent)
     .then(success => console.log(`Bootstrap success`))
-    .catch(error => console.log(error));
+    .catch(console.error.bind(console));

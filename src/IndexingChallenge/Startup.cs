@@ -45,19 +45,22 @@ namespace IndexingChallenge
                 .AddDefaultTokenProviders();
 
             services.AddMvc()
-                  .AddJsonOptions(options =>
-                  {
-                      options.SerializerSettings.ContractResolver =
-                          new CamelCasePropertyNamesContractResolver();
-                  });
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver =
+                        new CamelCasePropertyNamesContractResolver();
+                });
+
+            services.AddRouting(options => { options.LowercaseUrls = true; }); 
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
+            services.AddTransient<ApplicationDbContextSeeder>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationDbContextSeeder seeder)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -85,6 +88,8 @@ namespace IndexingChallenge
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            seeder.SeedAsync().Wait();
         }
     }
 }

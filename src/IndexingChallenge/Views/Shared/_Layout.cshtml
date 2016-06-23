@@ -1,3 +1,5 @@
+@inject SignInManager<ApplicationUser> SignInManager
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Indexing Challenge</title>
 
-    <link rel="stylesheet" href="~/styles/styles.css" />
+    <link rel="stylesheet" href="/jspm_packages/npm/font-awesome@4.6.3/css/font-awesome.css">
+    <link rel="stylesheet" href="/styles/styles.css" />
 </head>
 <body>
     <div class="navbar navbar-default navbar-fixed-top">
@@ -20,6 +23,12 @@
                 <a asp-controller="Home" asp-action="Index" class="navbar-brand">Indexing Challenge</a>
             </div>
             <div class="navbar-collapse collapse">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    <ul class="nav navbar-nav">
+                        <li><a asp-controller="Entries" asp-action="Index">Entries</a></li>
+                    </ul>
+                }
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>
@@ -33,18 +42,17 @@
     </div>
 
     <environment names="Development">
-        <script src="jspm_packages/system.src.js"></script>
-        <script src="jspm.config.js"></script>
-        <script src="bundle.js"></script>
+        <script src="/jspm_packages/system.src.js"></script>
+        <script src="/jspm.config.js"></script>
+        <script src="/bundle.js"></script>
         <script>System.trace = true;</script>
-        <script>System.import('indexing-challenge').catch(console.error.bind(console));</script>
+        <script>System.import('bootstrap-sass').catch(console.error.bind(console));</script>
     </environment>
     <environment names="Staging,Production">
-        <script src="jspm_packages/system.src.js"></script>
-        <script src="jspm.config.js"></script>
-        <script src="bundle.js"></script>
-        <script>System.trace = true;</script>
-        <script>System.import('indexing-challenge').catch(console.error.bind(console));</script>
+        <script src="/jspm_packages/system.js"></script>
+        <script src="/jspm.config.js"></script>
+        <script src="/bundle.js"></script>
+        <script>System.import('bootstrap-sass').catch(console.error.bind(console));</script>
     </environment>
 
     @RenderSection("scripts", required: false)

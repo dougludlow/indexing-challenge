@@ -15,6 +15,7 @@ namespace IndexingChallenge.Models
         [Required]
         public string Username { get; set; }
 
+        [Display(Name = "Group")]
         public int GroupId { get; set; }
 
         public virtual Group Group { get; set; }

@@ -2,6 +2,8 @@
 @import "../jspm_packages/github/twbs/bootstrap-sass@3.3.6/assets/stylesheets/bootstrap";
 @import "../jspm_packages/npm/bootswatch@3.3.6/superhero/bootswatch";
 
+.chart {display: block; width: 100%; }
+
 body {
   padding-top: 70px;
   padding-bottom: 20px;
@@ -37,5 +39,19 @@ input, select, textarea {
   /* Hide captions */
   .carousel-caption {
     display: none;
+  }
+}
+
+.ct-chart {
+  .ct-bar {
+    stroke-width: 60px;
+    stroke: #df691a;
+  }
+  .ct-label {
+    font-size: 1.5rem;
+    color: #ebebeb;
+  }
+  .ct-grid {
+    stroke: rgba(255, 255, 255, 0.2);
   }
 }

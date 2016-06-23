@@ -5953,6 +5953,10 @@ a.list-group-item-danger.active:hover, a.list-group-item-danger.active:focus {
 .popover-title {
   border: none; }
 
+.chart {
+  display: block;
+  width: 100%; }
+
 body {
   padding-top: 70px;
   padding-bottom: 20px; }
@@ -5982,3 +5986,14 @@ input, select, textarea {
   /* Hide captions */
   .carousel-caption {
     display: none; } }
+
+.ct-chart .ct-bar {
+  stroke-width: 60px;
+  stroke: #df691a; }
+
+.ct-chart .ct-label {
+  font-size: 1.5rem;
+  color: #ebebeb; }
+
+.ct-chart .ct-grid {
+  stroke: rgba(255, 255, 255, 0.2); }

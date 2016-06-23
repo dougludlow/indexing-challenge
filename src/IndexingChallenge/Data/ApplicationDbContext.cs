@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using IndexingChallenge.Models;
 
@@ -14,6 +10,10 @@ namespace IndexingChallenge.Data
             : base(options)
         {
         }
+
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Entry> Entries { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

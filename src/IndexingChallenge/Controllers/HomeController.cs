@@ -10,8 +10,6 @@ namespace IndexingChallenge.Controllers
     {
         public IActionResult Index() => View();
 
-        public IActionResult Entries() => View();
-
         public IActionResult Error() => View();
     }
 }
