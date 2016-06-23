@@ -73,7 +73,7 @@ export class BarChartComponent implements OnChanges {
 
     updateBarChartData() {
         if (this.entries && this.entries.length)
-            this.barChartData = _(this.entries)
+            this.barChartData = _.chain(this.entries)
                 .groupBy(e => e.group.name)
                 .map((value, key) => {
                     let total = _.reduce(value, (result, current: Entry) => result + current.count, 0);

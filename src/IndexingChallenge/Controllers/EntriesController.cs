@@ -49,7 +49,7 @@ namespace IndexingChallenge.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Count,GroupId")] Entry entry)
         {
-            entry.Date = DateTime.Now;
+            entry.Date = DateTime.UtcNow;
             entry.Username = User.Identity.Name;
             
             ModelState.Clear();
@@ -94,7 +94,7 @@ namespace IndexingChallenge.Controllers
                 return NotFound();
             }
 
-            entry.Date = DateTime.Now;
+            entry.Date = DateTime.UtcNow;
             entry.Username = User.Identity.Name;
 
             ModelState.Clear();

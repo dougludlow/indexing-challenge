@@ -19,6 +19,13 @@ export class ApiService {
     }
 
     getEntries(): Observable<Entry[]> {
-        return this.http.get('api/entries').map(res => <Entry[]>res.json());
+        return this.http.get('api/entries')
+            .map(res => <Entry[]>res.json())
+            .map(entries => {
+                entries.forEach((e) => {
+                    e.date = new Date(<any>e.date);
+                });
+                return entries;
+            });
     }
 }
