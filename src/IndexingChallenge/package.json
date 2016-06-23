@@ -7,8 +7,9 @@
   },
   "scripts" : {
     "postinstall": "jspm install",
-    "build": "gulp",
-    "build:release": "gulp release"
+    "build": "npm run build:node-sass && gulp",
+    "build:release": "npm run build:node-sass && gulp release",
+    "build:node-sass": "npm rebuild node-sass"
   },
   "devDependencies": {
     "@angular/common": "^2.0.0-rc.2",
