@@ -1,2 +1,3 @@
 wwwroot/jspm_packages/
 wwwroot/typings/
+wwwroot/styles/*.css

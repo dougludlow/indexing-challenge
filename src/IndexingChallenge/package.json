@@ -5,6 +5,11 @@
   "engines": {
     "node": "6.2.x || 5.11.x || 4.4.x"
   },
+  "scripts" : {
+    "postinstall": "jspm install",
+    "build": "gulp",
+    "build:release": "gulp release"
+  },
   "devDependencies": {
     "@angular/common": "^2.0.0-rc.2",
     "@angular/compiler": "^2.0.0-rc.2",

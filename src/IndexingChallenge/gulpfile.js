@@ -26,7 +26,7 @@ gulp.task('jspm', ['jspm:debug']);
 gulp.task('sass', ['sass:debug']);
 
 gulp.task('serve', ['dotnet', 'sass', 'jspm'], function() {
-
+    process.env.ASPNETCORE_ENVIRONMENT = 'development';
     browserSync.init({
         proxy: 'localhost:5000',
     });
@@ -39,8 +39,14 @@ gulp.task('serve', ['dotnet', 'sass', 'jspm'], function() {
     gulp.watch(webroot + '**/*.html').on('change', browserSync.reload);;
 });
 
+gulp.task('serve:release', ['dotnet', 'sass:release', 'jspm:release'], function() {
+    process.env.ASPNETCORE_ENVIRONMENT = 'production';
+    browserSync.init({
+        proxy: 'localhost:5000',
+    });
+});
+
 gulp.task('dotnet', function(done) {
-    process.env.ASPNETCORE_ENVIRONMENT = 'development';
     if (!server)
         server = new Dotnet({ logLevel: 'debug' });
     server.start('run', done);
@@ -93,9 +99,15 @@ gulp.task('jspm:release', ['sass:release'], function (done) {
         };
 
     builder
-        .buildStatic('indexing-challenge', paths.scripts, options)
+        .bundle('indexing-challenge', paths.scripts, options)
         .then(function () {
-            browserSync.reload();
             done();
         });
+
+    // builder
+    //     .buildStatic('indexing-challenge', paths.scripts, options)
+    //     .then(function () {
+    //         browserSync.reload();
+    //         done();
+    //     });
 });
