@@ -5,7 +5,7 @@
   "engines": {
     "node": "6.2.x || 5.11.x || 4.4.x"
   },
-  "scripts" : {
+  "scripts": {
     "postinstall": "jspm install",
     "build": "npm run build:node-sass && gulp",
     "build:release": "npm run build:node-sass && gulp release",
@@ -147,6 +147,12 @@
       },
       "npm:jquery@2.2.4": {
         "format": "amd"
+      },
+      "npm:lodash@4.13.1": {
+        "map": {
+          "buffer": "@empty",
+          "process": "@empty"
+        }
       },
       "npm:moment@2.13.0": {
         "jspmNodeConversion": false

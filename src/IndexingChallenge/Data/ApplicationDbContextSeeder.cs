@@ -59,7 +59,11 @@ namespace IndexingChallenge.Data
             {
                 if (!_context.Roles.Any(r => r.Name == role))
                 {
-                    await roleStore.CreateAsync(new IdentityRole(role));
+                    var r = new IdentityRole(role) 
+                    {
+                        NormalizedName = role.ToUpper()
+                    };
+                    await roleStore.CreateAsync(r);
                 }
             }
 
@@ -82,7 +86,7 @@ namespace IndexingChallenge.Data
 
                 var userStore = new UserStore<ApplicationUser>(_context);
                 await userStore.CreateAsync(user);
-                await userStore.AddToRoleAsync(user, roles[0]);
+                await userStore.AddToRoleAsync(user, roles[0].ToUpper());
             }
 
             await _context.SaveChangesAsync();

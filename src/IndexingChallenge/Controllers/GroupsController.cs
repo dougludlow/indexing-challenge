@@ -62,7 +62,7 @@ namespace IndexingChallenge.Controllers
                 return NotFound();
             }
 
-            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
+            var @group = await _context.Groups.FirstOrDefaultAsync(m => m.Id == id);
             if (@group == null)
             {
                 return NotFound();
@@ -113,7 +113,7 @@ namespace IndexingChallenge.Controllers
                 return NotFound();
             }
 
-            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
+            var @group = await _context.Groups.FirstOrDefaultAsync(m => m.Id == id);
             if (@group == null)
             {
                 return NotFound();
@@ -127,7 +127,7 @@ namespace IndexingChallenge.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @group = await _context.Groups.SingleOrDefaultAsync(m => m.Id == id);
+            var @group = await _context.Groups.FirstOrDefaultAsync(m => m.Id == id);
             _context.Groups.Remove(@group);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
